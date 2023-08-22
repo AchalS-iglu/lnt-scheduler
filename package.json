@@ -37,7 +37,8 @@
 		"@fullcalendar/timegrid": "^5.11.2",
 		"@supabase/supabase-js": "^2.32.0",
 		"@sveltejs/adapter-static": "^2.0.3",
-		"svelte-fullcalendar": "^2.0.0-beta.0",
-		"svelte-french-toast": "^1.2.0"
+		"sass": "^1.66.1",
+		"svelte-french-toast": "^1.2.0",
+		"svelte-fullcalendar": "^2.0.0-beta.0"
 	}
 }
