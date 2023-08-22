@@ -1806,12 +1806,21 @@ svelte-eslint-parser@^0.32.2:
     postcss "^8.4.25"
     postcss-scss "^4.0.6"
 
+<<<<<<< HEAD
 svelte-fullcalendar@^2.0.0-beta.0:
   version "2.0.0-beta.0"
   resolved "https://registry.yarnpkg.com/svelte-fullcalendar/-/svelte-fullcalendar-2.0.0-beta.0.tgz#b15d11d06d9817327d59dcbf7f9678ad85b4caa1"
   integrity sha512-fhRfLxNy85ExPqbwZlWMMgPiTqFpgp6kkekfuDVS8ml93QvnJdbJeMG5Ax12dsJOLFnfRiAY4nlyLpNTCZRuqA==
   optionalDependencies:
     "@fullcalendar/interaction" "^5.0.0"
+=======
+svelte-french-toast@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/svelte-french-toast/-/svelte-french-toast-1.2.0.tgz#bfe3696ee1e3cbdee2a300e0153dede7d6d802eb"
+  integrity sha512-5PW+6RFX3xQPbR44CngYAP1Sd9oCq9P2FOox4FZffzJuZI2mHOB7q5gJBVnOiLF5y3moVGZ7u2bYt7+yPAgcEQ==
+  dependencies:
+    svelte-writable-derived "^3.1.0"
+>>>>>>> 8f62135 (login flow)
 
 svelte-hmr@^0.15.3:
   version "0.15.3"
@@ -1828,6 +1837,11 @@ svelte-preprocess@^5.0.4:
     magic-string "^0.27.0"
     sorcery "^0.11.0"
     strip-indent "^3.0.0"
+
+svelte-writable-derived@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/svelte-writable-derived/-/svelte-writable-derived-3.1.0.tgz#ea114125805a9d18398577f2431d1e8cdd4d8d69"
+  integrity sha512-cTvaVFNIJ036vSDIyPxJYivKC7ZLtcFOPm1Iq6qWBDo1fOHzfk6ZSbwaKrxhjgy52Rbl5IHzRcWgos6Zqn9/rg==
 
 svelte@^4.0.5:
   version "4.2.0"

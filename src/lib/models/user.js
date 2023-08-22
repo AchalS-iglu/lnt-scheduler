@@ -54,3 +54,13 @@ export async function signOutUser() {
         throw error
     }
 }
+
+/**
+ * 
+ * @param {string} email 
+ */
+export async function sendResetPasswordMail(email) {
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email)
+    if (error) throw error
+    return data
+}

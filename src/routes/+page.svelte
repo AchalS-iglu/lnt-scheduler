@@ -9,10 +9,6 @@
 	import { goto } from '$app/navigation';
 	import { supabase } from '$lib/supabase/client';
 
-	const user = supabase.auth.getUser();
-	console.log(user);
-	if (!user) goto('/login');
-
 	let options: CalendarOptions = {
 		initialView: 'dayGridMonth',
 		plugins: [dayGridPlugin, interactionPlugin, listPlugin, timeGridPlugin],
@@ -31,6 +27,9 @@
 			endTime: '21:00'
 		}
 	};
+  supabase.auth.getUser().then((res) => {
+    console.log(res)
+  })
 </script>
 
 <div class="grid" style="grid-template-columns: 3fr 1fr;">
