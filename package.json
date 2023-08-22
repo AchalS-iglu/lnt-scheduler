@@ -30,6 +30,13 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@supabase/supabase-js": "^2.32.0"
+		"@fullcalendar/core": "^5.11.2",
+		"@fullcalendar/daygrid": "^5.11.2",
+		"@fullcalendar/interaction": "^5.11.2",
+		"@fullcalendar/list": "^5.11.3",
+		"@fullcalendar/timegrid": "^5.11.2",
+		"@supabase/supabase-js": "^2.32.0",
+		"@sveltejs/adapter-static": "^2.0.3",
+		"svelte-fullcalendar": "^2.0.0-beta.0"
 	}
 }
