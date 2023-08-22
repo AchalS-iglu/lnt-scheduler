@@ -1,3 +1,12 @@
+<script>
+	import { goto } from "$app/navigation";
+	import { supabase } from "$lib/supabase/client";
+
+  const user = supabase.auth.getUser()
+  console.log(user)
+  if (!user) goto("/login")
+</script>
+
 <h1 class="text-3xl font-bold underline">
   Hello world!
 </h1>
