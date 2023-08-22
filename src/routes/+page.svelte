@@ -11,6 +11,11 @@
 	import EventDetails from '../components/modals/EventDetails.svelte';
 	import { MeetingStatus } from '$lib/models/meeting';
 	import UserProfile from '../components/UserProfile.svelte';
+	import { goto } from '$app/navigation';
+	import { supabase } from '$lib/supabase/client';
+	import { userStore } from '$lib/stores';
+	import { onMount } from 'svelte';
+	import { getOtherMeetingsPastToday } from '$lib/models/meeting';
 
 	/**
 	 * @type {import('svelte-fullcalendar').CalendarOptions}
