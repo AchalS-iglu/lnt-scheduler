@@ -10,6 +10,7 @@
 	import NewEvent from '../components/modals/NewEvent.svelte';
 	import EventDetails from '../components/modals/EventDetails.svelte';
 	import { MeetingStatus } from '$lib/models/meeting';
+	import UserProfile from '../components/UserProfile.svelte';
 
 	/**
 	 * @type {import('svelte-fullcalendar').CalendarOptions}
@@ -25,18 +26,20 @@
 		displayEventEnd: true,
 		navLinks: true,
 		selectable: true,
-		aspectRatio: 2,
+		aspectRatio: 1.8,
 		businessHours: {
 			daysOfWeek: [1, 2, 3, 4, 5],
 			startTime: '9:00',
 			endTime: '21:00'
 		},
-		events: [{
-			id: '1',
-			title: 'Test Meeting',
-			start: Date.now(),
-			end: Date.now() + 1000 * 60 * 60,
-		}],
+		events: [
+			{
+				id: '1',
+				title: 'Test Meeting',
+				start: Date.now(),
+				end: Date.now() + 1000 * 60 * 60
+			}
+		],
 		eventClick: (e) => {
 			console.log(e.event.id);
 		}
@@ -46,6 +49,7 @@
 	 * @type {number}
 	 */
 	let windowWidth;
+	$: windowWidth < 768 ? (options.aspectRatio = 1) : (options.aspectRatio = 1.8);
 
 	// modalStore.set({
 	// 	component: EventDetails,
@@ -75,7 +79,7 @@
 
 <svelte:window bind:innerWidth={windowWidth} />
 
-<div class="grid px-8 py-8 gap-4" style="grid-template-columns: 3fr 1fr;">
+<div class="grid px-8 py-8 gap-6 h-screen" style="grid-template-columns: 3fr 1fr;">
 	<div class="flex flex-col gap-4">
 		<div class="font-medium text-xl pb-2">Hello !</div>
 		<FullCalendar {options} />
@@ -97,3 +101,5 @@
 		</div>
 	</div>
 </div>
+
+<UserProfile />
