@@ -45,6 +45,17 @@ export async function createMeeting(meeting) {
 	}
 }
 
+export async function getMeetings() {
+	const { data, error } = await supabase.from('meetings').select();
+	if (error) {
+		throw error;
+	}
+	if (data) {
+		return data;
+	}
+	return [];
+}
+
 /**
  *
  * @param {string} id

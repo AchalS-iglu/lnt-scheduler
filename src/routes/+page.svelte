@@ -6,16 +6,40 @@
 	import listPlugin from '@fullcalendar/list';
 	import timeGridPlugin from '@fullcalendar/timegrid';
 	import FullCalendar from 'svelte-fullcalendar';
-	import { modalStore } from '$lib/stores';
+	import { meetingsStore, modalStore } from '$lib/stores';
 	import NewEvent from '../components/modals/NewEvent.svelte';
 	import EventDetails from '../components/modals/EventDetails.svelte';
-	import { MeetingStatus } from '$lib/models/meeting';
+	import { MeetingStatus, getMeetings } from '$lib/models/meeting';
 	import UserProfile from '../components/UserProfile.svelte';
-	import { goto } from '$app/navigation';
 	import { supabase } from '$lib/supabase/client';
-	import { userStore } from '$lib/stores';
 	import { onMount } from 'svelte';
-	import { getOtherMeetingsPastToday } from '$lib/models/meeting';
+
+	/**
+	 * @type {number}
+	 */
+	let windowWidth;
+	$: windowWidth < 768 ? (options.aspectRatio = 1) : (options.aspectRatio = 1.8);
+
+	onMount(async () => {
+		meetingsStore.set(await getMeetings());
+	});
+
+	const meetingsChannel = supabase
+		.channel('meeting-db-changes')
+		.on(
+			'postgres_changes',
+			{
+				event: '*',
+				schema: 'public',
+				table: 'meetings'
+			},
+			(payload) => {
+				meetingsStore.set(payload);
+			}
+		)
+		.subscribe();
+
+	let meetings = $meetingsStore;
 
 	/**
 	 * @type {import('svelte-fullcalendar').CalendarOptions}
@@ -37,49 +61,28 @@
 			startTime: '9:00',
 			endTime: '21:00'
 		},
-		events: [
-			{
-				id: '1',
-				title: 'Test Meeting',
-				start: Date.now(),
-				end: Date.now() + 1000 * 60 * 60
-			}
-		],
+		events: meetings.map((meeting) => {
+			return {
+				id: meeting.id,
+				title: meeting.name,
+				start: meeting.start,
+				end: meeting.end,
+				backgroundColor: meeting.status === MeetingStatus.APPROVED ? '#10B981' : '#F59E0B',
+				borderColor: meeting.status === MeetingStatus.APPROVED ? '#10B981' : '#F59E0B',
+				textColor: '#fff'
+			};
+		}),
 		eventClick: (e) => {
-			console.log(e.event.id);
+			modalStore.set({
+				component: EventDetails,
+				props: {
+					isStandalone: false,
+					meeting: meetings.find((m) => m.id === e.event.id)
+				},
+				isLoading: false
+			});
 		}
 	};
-
-	/**
-	 * @type {number}
-	 */
-	let windowWidth;
-	$: windowWidth < 768 ? (options.aspectRatio = 1) : (options.aspectRatio = 1.8);
-
-	// modalStore.set({
-	// 	component: EventDetails,
-	// 	props: {
-	// 		isStandalone: false,
-	// 		meeting: {
-	// 			id: '1',
-	// 			name: 'Test Meeting',
-	// 			description:
-	// 				'This is a test meeting, and this is a long ass description which it will not be anble to handle welp and it is aable to handle it now lets check this out, welp this is nice and great work @SK hehehehe',
-	// 			start: Date.now(),
-	// 			end: Date.now() + 1000 * 60 * 60,
-	// 			roomId: 1,
-	// 			userId: 1,
-	// 			createdAt: Date.now(),
-	// 			participants: 10,
-	// 			refreshments: true,
-	// 			lunch: true,
-	// 			vc: true,
-	// 			jobcode: '123456',
-	// 			status: MeetingStatus.APPROVED
-	// 		}
-	// 	},
-	// 	isLoading: false
-	// });
 </script>
 
 <svelte:window bind:innerWidth={windowWidth} />
