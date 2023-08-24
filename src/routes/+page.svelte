@@ -1,17 +1,20 @@
-<script lang="ts">
+<script>
 	import '@fullcalendar/core/vdom.cjs';
 
 	import dayGridPlugin from '@fullcalendar/daygrid';
 	import interactionPlugin from '@fullcalendar/interaction';
 	import listPlugin from '@fullcalendar/list';
 	import timeGridPlugin from '@fullcalendar/timegrid';
-	import FullCalendar, { type CalendarOptions } from 'svelte-fullcalendar';
-	import { goto } from '$app/navigation';
+	import FullCalendar from 'svelte-fullcalendar';
 	import { modalStore } from '$lib/stores';
 	import NewEvent from '../components/modals/NewEvent.svelte';
 	import EventDetails from '../components/modals/EventDetails.svelte';
+	import { MeetingStatus } from '$lib/models/meeting';
 
-	let options: CalendarOptions = {
+	/**
+	 * @type {import('svelte-fullcalendar').CalendarOptions}
+	 */
+	let options = {
 		initialView: 'dayGridMonth',
 		plugins: [dayGridPlugin, interactionPlugin, listPlugin, timeGridPlugin],
 		headerToolbar: {
@@ -22,22 +25,55 @@
 		displayEventEnd: true,
 		navLinks: true,
 		selectable: true,
-		aspectRatio: 1.8,
+		aspectRatio: 2,
 		businessHours: {
 			daysOfWeek: [1, 2, 3, 4, 5],
 			startTime: '9:00',
 			endTime: '21:00'
+		},
+		events: [{
+			id: '1',
+			title: 'Test Meeting',
+			start: Date.now(),
+			end: Date.now() + 1000 * 60 * 60,
+		}],
+		eventClick: (e) => {
+			console.log(e.event.id);
 		}
 	};
 
-	modalStore.set({
-		component: EventDetails,
-		props: {
-			isStandalone: false
-		},
-		isLoading: false
-	});
+	/**
+	 * @type {number}
+	 */
+	let windowWidth;
+
+	// modalStore.set({
+	// 	component: EventDetails,
+	// 	props: {
+	// 		isStandalone: false,
+	// 		meeting: {
+	// 			id: '1',
+	// 			name: 'Test Meeting',
+	// 			description:
+	// 				'This is a test meeting, and this is a long ass description which it will not be anble to handle welp and it is aable to handle it now lets check this out, welp this is nice and great work @SK hehehehe',
+	// 			start: Date.now(),
+	// 			end: Date.now() + 1000 * 60 * 60,
+	// 			roomId: 1,
+	// 			userId: 1,
+	// 			createdAt: Date.now(),
+	// 			participants: 10,
+	// 			refreshments: true,
+	// 			lunch: true,
+	// 			vc: true,
+	// 			jobcode: '123456',
+	// 			status: MeetingStatus.APPROVED
+	// 		}
+	// 	},
+	// 	isLoading: false
+	// });
 </script>
+
+<svelte:window bind:innerWidth={windowWidth} />
 
 <div class="grid px-8 py-8 gap-4" style="grid-template-columns: 3fr 1fr;">
 	<div class="flex flex-col gap-4">

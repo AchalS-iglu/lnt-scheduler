@@ -1,11 +1,26 @@
 <script>
+	import { MeetingStatus } from '$lib/models/meeting';
+	import { modalStore } from '$lib/stores';
 	import { closeModal } from '$lib/utils';
 
 	import IconButton from '../IconButton.svelte';
+
+	/**
+	 * @type {import('$lib/models/meeting').Meeting | undefined}
+	 */
+	let meetingDetails = $modalStore?.props?.meeting ?? undefined;
+
+	$: console.log(meetingDetails);
 </script>
 
 <div class="header">
-	<span class="heading"> New Task </span>
+	<div class="heading">
+		<span>Meeting Details</span>
+		<div class="flex gap-1 items-center">
+			<span class="text-xs font-medium">Created At -</span>
+			<span class="text-xs font-normal">{meetingDetails ? new Date(meetingDetails.createdAt).toLocaleString(): ""}</span>
+		</div>
+	</div>
 	<IconButton on:click={closeModal}>
 		<svg
 			width="24"
@@ -22,8 +37,40 @@
 		</svg>
 	</IconButton>
 </div>
-<div class="flex flex-col gap-4">
-    
+<div class="flex flex-col gap-6 px-4">
+	{#if meetingDetails}
+		<div class="flex items-center justify-center gap-2">
+			<div class="flex flex-col gap-2 border rounded-lg w-fit px-4 py-2 font-medium">
+				<span class="text-sm">{new Date(meetingDetails.start).toLocaleString()}</span>
+			</div>
+			<div class="border-t border-b w-1/5"></div>
+			<div class="flex flex-col gap-2 border rounded-lg w-fit px-4 py-2 font-medium">
+				<span class="text-sm">{new Date(meetingDetails.end).toLocaleString()}</span>
+			</div>
+		</div>
+		<div class="grid gap-y-2 gap-x-4" style="grid-template-columns: max-content 1fr;">
+			<span class="text-sm font-semibold">Name</span>
+			<span class="text-sm">{meetingDetails.name}</span>
+			<span class="text-sm font-semibold">Description</span>
+			<span class="text-sm">{meetingDetails.description}</span>
+			<span class="text-sm font-semibold">Room</span>
+			<span class="text-sm">{meetingDetails.roomId}</span>
+			<span class="text-sm font-semibold">User</span>
+			<span class="text-sm">{meetingDetails.userId}</span>
+			<span class="text-sm font-semibold">Participants</span>
+			<span class="text-sm">{meetingDetails.participants}</span>
+			<span class="text-sm font-semibold">Refreshments</span>
+			<span class="text-sm">{meetingDetails.refreshments ? 'Yes' : 'No'}</span>
+			<span class="text-sm font-semibold">Lunch</span>
+			<span class="text-sm">{meetingDetails.lunch ? 'Yes' : 'No'}</span>
+			<span class="text-sm font-semibold">VC</span>
+			<span class="text-sm">{meetingDetails.vc ? 'Yes' : 'No'}</span>
+			<span class="text-sm font-semibold">Jobcode</span>
+			<span class="text-sm">{meetingDetails.jobcode}</span>
+			<span class="text-sm font-semibold self-center">Status</span>
+			<span class="text-sm w-fit px-3 py-1 rounded-lg text-white {meetingDetails.status === MeetingStatus.APPROVED ? 'bg-green-500' : meetingDetails.status === MeetingStatus.PENDING ? 'bg-yellow-500' : 'bg-red-500'}">{meetingDetails.status === MeetingStatus.APPROVED ? 'Approved' : meetingDetails.status === MeetingStatus.PENDING ? 'Pending' : 'Rejected'}</span>
+		</div>
+	{/if}
 </div>
 
 <style lang="scss">
@@ -35,6 +82,10 @@
 		padding: 0.5rem;
 
 		.heading {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+
 			font-size: 1.1rem;
 			font-weight: 600;
 			line-height: 1.25rem;

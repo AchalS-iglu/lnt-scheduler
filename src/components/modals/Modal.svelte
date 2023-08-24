@@ -40,7 +40,7 @@
 								<Loader />
 							</div>
 						{/if}
-						<div class="content {$modalStore.isLoading ? 'isloading' : ''}">
+						<div class="content {$modalStore.isLoading ? 'isloading' : ''} bg-inherit">
 							<svelte:component this={ModalComponent} />
 						</div>
 					</div>
@@ -61,7 +61,7 @@
 		align-items: center;
 		justify-content: center;
 
-		background-color: rgba($color: #fff, $alpha: 0.5);
+		background-color: rgba($color: #fff, $alpha: 0.8);
 
 		.Modal {
 			min-width: 40vw;
