@@ -67,8 +67,8 @@ export async function sendResetPasswordMail(email) {
 }
 
 /**
- * 
- * @param {string} id 
+ *
+ * @param {string} id
  */
 export const getUserbyId = async (id) => {
 	const { data, error } = await supabase.from('userData').select('*').eq('id', id);

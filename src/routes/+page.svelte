@@ -95,9 +95,20 @@
 
 <svelte:window bind:innerWidth={windowWidth} />
 
+<svelte:head
+	><title>Home | Meeting Room Booking System</title><meta
+		name="description"
+		content="Meeting Room Booking System"
+	/>
+	<meta name="keywords" content="Meeting Room Booking System" />
+	<meta name="author" content="Meeting Room Booking System" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="icon" type="image/png" href={'./favicon.png'} />
+</svelte:head>
+
 <div class="grid px-8 py-8 gap-6 h-screen" style="grid-template-columns: 3fr 1fr;">
 	<div class="flex flex-col gap-4">
-		<div class="font-medium text-xl pb-2">Hello !</div>
+		<div class="font-medium text-xl pb-2">Hello There!</div>
 		<FullCalendar {options} />
 	</div>
 	<div class="flex flex-col gap-4">

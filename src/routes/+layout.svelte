@@ -7,12 +7,16 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { getUserbyId } from '$lib/models/user';
+	import ChnagePwd from '../components/modals/ChnagePwd.svelte';
 
 	supabase.auth.onAuthStateChange((e, s) => {
 		if (e === 'PASSWORD_RECOVERY') {
-			console.log(e);
+			modalStore.set({
+				component: ChnagePwd,
+				props: {},
+				isLoading: false
+			});
 		}
-		console.log(s);
 		userStore.set(s);
 		if (s)
 			getUserbyId(s?.user.id ?? '').then((res) => {
@@ -22,6 +26,10 @@
 					role: res[0]?.role ? res[0].role : 'Unknown'
 				});
 			});
+		else if (e === 'SIGNED_OUT') {
+			userStore.set(null);
+			goto('/login');
+		}
 	});
 
 	$: if (!$userStore) {
