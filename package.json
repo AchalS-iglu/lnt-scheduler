@@ -14,6 +14,7 @@
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/kit": "^1.20.4",
+		"@types/nodemailer": "^6.4.9",
 		"autoprefixer": "^10.4.15",
 		"daisyui": "^3.5.1",
 		"eslint": "^8.28.0",
@@ -37,7 +38,9 @@
 		"@fullcalendar/timegrid": "^5.11.2",
 		"@supabase/supabase-js": "^2.32.0",
 		"@sveltejs/adapter-static": "^2.0.3",
+		"nodemailer": "^6.9.4",
 		"sass": "^1.66.1",
+		"supabase": "^1.88.0",
 		"svelte-cached-store": "latest",
 		"svelte-french-toast": "^1.2.0",
 		"svelte-fullcalendar": "^2.0.0-beta.0"

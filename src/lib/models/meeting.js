@@ -9,7 +9,7 @@ import { supabase } from '$lib/supabase/client';
  * @property {number} end
  * @property {string} roomId
  * @property {string} userId
- * @property {number} createdAt
+ * @property {number} created_at
  * @property {number} participants
  * @property {boolean} refreshments
  * @property {boolean} lunch
@@ -50,7 +50,7 @@ export async function getMeetings() {
 	if (data) {
 		return data;
 	}
-	return [];	
+	return [];
 }
 
 /**

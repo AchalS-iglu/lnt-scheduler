@@ -10,7 +10,7 @@
 
 	let form = {
 		name: '',
-		roomId: '',
+		roomId: 'Select a room',
 		desc: '',
 		date: '',
 		start: 0,
@@ -110,7 +110,7 @@
 				<span class="label-text">Title</span>
 			</label>
 			<input
-				placeholder="Subject of meetng"
+				placeholder="Subject of the meetng"
 				class="input input-bordered w-full"
 				bind:value={form.name}
 				required

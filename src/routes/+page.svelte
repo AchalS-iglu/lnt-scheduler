@@ -85,7 +85,7 @@
 				component: EventDetails,
 				props: {
 					isStandalone: false,
-					meeting: meetings.find((m) => m.id === e.event.id)
+					meeting: $meetingsStore.find((m) => m.id === e.event.id)
 				},
 				isLoading: false
 			});

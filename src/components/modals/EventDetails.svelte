@@ -21,7 +21,7 @@
 			roomName = res.name;
 		});
 		getUserbyId(meetingDetails.userId).then((res) => {
-			meetingUser = res.name;
+			meetingUser = res[0]?.name ?? 'Unknown';
 		});
 	});
 </script>
@@ -32,7 +32,7 @@
 		<div class="flex gap-1 items-center">
 			<span class="text-xs font-medium">Created At -</span>
 			<span class="text-xs font-normal"
-				>{meetingDetails ? new Date(meetingDetails.createdAt).toLocaleString() : ''}</span
+				>{meetingDetails ? new Date(meetingDetails.created_at).toLocaleString() : ''}</span
 			>
 		</div>
 	</div>
