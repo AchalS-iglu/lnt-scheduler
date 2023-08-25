@@ -9,6 +9,7 @@ import { supabase } from '$lib/supabase/client';
  * @param {string} user.password
  * @param {string} user.role
  */
+
 export async function createUser(user) {
 	const { data, error } = await supabase.auth.signUp({
 		email: user.email,
@@ -70,7 +71,7 @@ export async function sendResetPasswordMail(email) {
  * @param {string} id 
  */
 export const getUserbyId = async (id) => {
-	const { data, error } = await supabase.auth.admin.getUserById(id);
+	const { data, error } = await supabase.from('userData').select('*').eq('id', id);
 	if (error) throw error;
 	if (data) return data;
 };

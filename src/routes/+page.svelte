@@ -13,6 +13,7 @@
 	import UserProfile from '../components/UserProfile.svelte';
 	import { supabase } from '$lib/supabase/client';
 	import { onMount } from 'svelte';
+	import { getRoombyId, getRooms } from '$lib/models/room';
 
 	/**
 	 * @type {number}
@@ -20,8 +21,13 @@
 	let windowWidth;
 	$: windowWidth < 768 ? (options.aspectRatio = 1) : (options.aspectRatio = 1.8);
 
+	let rooms = [];
+
 	onMount(async () => {
 		meetingsStore.set(await getMeetings());
+		getRooms().then((res) => {
+			rooms = res;
+		});
 	});
 
 	const meetingsChannel = supabase
@@ -34,12 +40,14 @@
 				table: 'meetings'
 			},
 			(payload) => {
-				meetingsStore.set(payload);
+				if (payload.new) {
+					meetingsStore.set(
+						$meetingsStore.map((meeting) => (meeting.id === payload.new.id ? payload.new : meeting))
+					);
+				}
 			}
 		)
 		.subscribe();
-
-	let meetings = $meetingsStore;
 
 	/**
 	 * @type {import('svelte-fullcalendar').CalendarOptions}
@@ -61,7 +69,7 @@
 			startTime: '9:00',
 			endTime: '21:00'
 		},
-		events: meetings.map((meeting) => {
+		events: $meetingsStore.map((meeting) => {
 			return {
 				id: meeting.id,
 				title: meeting.name,
@@ -106,6 +114,34 @@
 		>
 		<div class="flex flex-col bg-slate-200 rounded-lg h-full py-6 px-4">
 			<div class="font-medium text-center">Upcoming Events</div>
+			{#each $meetingsStore.filter((meet) => {
+				return new Date(meet.start) > new Date();
+			}) as meeting}
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
+				<!-- svelte-ignore a11y-no-static-element-interactions -->
+				<div
+					class="flex flex-col gap-2 hover:cursor-pointer"
+					on:click={() => {
+						modalStore.set({
+							component: EventDetails,
+							props: {
+								isStandalone: false,
+								meeting
+							},
+							isLoading: false
+						});
+					}}
+				>
+					<div class="flex flex-col gap-1">
+						<span class="font-medium">{meeting.name}</span>
+						<span class="text-xs">{rooms.find((room) => room.id === meeting.roomId)?.name}</span>
+					</div>
+					<div class="flex flex-col gap-1">
+						<span class="text-xs">{new Date(meeting.start).toLocaleString()}</span>
+						<span class="text-xs">{new Date(meeting.end).toLocaleString()}</span>
+					</div>
+				</div>
+			{/each}
 		</div>
 	</div>
 </div>

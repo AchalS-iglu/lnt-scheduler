@@ -1,12 +1,13 @@
 <script>
-	import { MeetingStatus } from '$lib/models/meeting';
-	import { modalStore } from '$lib/stores';
+	import { MeetingStatus, updateMeetingStatus } from '$lib/models/meeting';
+	import { meetingsStore, modalStore, userStore } from '$lib/stores';
 	import { closeModal } from '$lib/utils';
 	import { onMount } from 'svelte';
 
 	import IconButton from '../IconButton.svelte';
 	import { getUserbyId } from '$lib/models/user';
 	import { getRoombyId } from '$lib/models/room';
+	import toast from 'svelte-french-toast';
 
 	/**
 	 * @type {import('$lib/models/meeting').Meeting | undefined}
@@ -19,13 +20,8 @@
 		getRoombyId(meetingDetails.roomId).then((res) => {
 			roomName = res.name;
 		});
-		fetch(`/api/getUserEmailbyID?id=${meetingDetails.userId}`).then((res) => {
-			res.body
-				?.getReader()
-				.read()
-				.then((res) => {
-					meetingUser = new TextDecoder('utf-8').decode(res.value);
-				});
+		getUserbyId(meetingDetails.userId).then((res) => {
+			meetingUser = res.name;
 		});
 	});
 </script>
@@ -100,6 +96,56 @@
 					? 'Pending'
 					: 'Rejected'}</span
 			>
+			{#if $userStore.role === 'Admin'}
+				{#if meetingDetails.status === MeetingStatus.PENDING}
+					<button
+						class="btn btn-sm btn-success"
+						on:click={() => {
+							toast.promise(
+								updateMeetingStatus(meetingDetails.id, MeetingStatus.APPROVED).then(() => {
+									meetingsStore.set(
+										$meetingsStore.map((meet) => {
+											if (meet.id === meetingDetails.id) {
+												meet.status = MeetingStatus.APPROVED;
+											}
+											return meet;
+										})
+									);
+									closeModal();
+								}),
+								{
+									loading: 'Approving meeting...',
+									success: 'Meeting approved successfully!',
+									error: 'Failed to approve meeting'
+								}
+							);
+						}}>Approve</button
+					>
+					<button
+						class="btn btn-sm btn-error"
+						on:click={() => {
+							toast.promise(
+								updateMeetingStatus(meetingDetails.id, MeetingStatus.REJECTED).then(() => {
+									meetingsStore.set(
+										$meetingsStore.map((meet) => {
+											if (meet.id === meetingDetails.id) {
+												meet.status = MeetingStatus.REJECTED;
+											}
+											return meet;
+										})
+									);
+									closeModal();
+								}),
+								{
+									loading: 'Rejecting meeting...',
+									success: 'Meeting rejected successfully!',
+									error: 'Failed to reject meeting'
+								}
+							);
+						}}>Reject</button
+					>
+				{/if}
+			{/if}
 		</div>
 	{/if}
 </div>

@@ -50,7 +50,7 @@ export async function getMeetings() {
 	if (data) {
 		return data;
 	}
-	return [];
+	return [];	
 }
 
 /**

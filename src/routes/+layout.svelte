@@ -6,25 +6,29 @@
 	import Modal from '../components/modals/Modal.svelte';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import { getUserbyId } from '$lib/models/user';
 
 	supabase.auth.onAuthStateChange((e, s) => {
 		if (e === 'PASSWORD_RECOVERY') {
 			console.log(e);
 		}
-		if (s) {
-			console.log(s);
-			userStore.set(s);
-		}
+		console.log(s);
+		userStore.set(s);
+		if (s)
+			getUserbyId(s?.user.id ?? '').then((res) => {
+				userStore.set({
+					...s,
+					name: res[0]?.name ? res[0].name : 'Unknown',
+					role: res[0]?.role ? res[0].role : 'Unknown'
+				});
+			});
 	});
 
-	onMount(() => {
-		userStore.subscribe((user) => {
-			console.log(user);
-			if (!user) {
-				goto('/login');
-			}
+	$: if (!$userStore) {
+		onMount(() => {
+			goto('/login');
 		});
-	});
+	}
 </script>
 
 <Toaster />
