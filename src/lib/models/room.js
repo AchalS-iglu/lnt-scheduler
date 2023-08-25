@@ -2,8 +2,8 @@ import { supabase } from '$lib/supabase/client';
 
 /**
  * @typedef {Object} Room_t
- * @param {string} room.id
- * @param {string} room.name
+ * @property {string} room.id
+ * @property {string} room.name
  */
 
 /**
@@ -37,6 +37,10 @@ export async function getRooms() {
 	return [];
 }
 
+/**
+ * 
+ * @param {string} id
+ */
 export async function getRoombyId(id) {
 	const { data, error } = await supabase.from('rooms').select().eq('id', id);
 	if (error) {

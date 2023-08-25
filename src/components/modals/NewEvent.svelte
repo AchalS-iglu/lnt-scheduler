@@ -10,7 +10,7 @@
 
 	let form = {
 		name: '',
-		roomId: 'Select a room',
+		roomId: '',
 		desc: '',
 		date: '',
 		start: 0,
@@ -22,6 +22,9 @@
 		jobcode: ''
 	};
 
+	/**
+	 * @type {import('$lib/models/room').Room_t[]}
+	 */
 	let rooms = [];
 	onMount(async () => {
 		rooms = await getRooms();
@@ -115,7 +118,7 @@
 		</div>
 		<div class="form-control w-full">
 			<label class="label" for="">
-				<span class="label-text">Name</span>
+				<span class="label-text">VC Room</span>
 			</label>
 			<select class="select select-bordered w-full max-w-xs" bind:value={form.roomId}>
 				<option disabled selected>Select a room</option>

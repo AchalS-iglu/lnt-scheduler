@@ -65,6 +65,10 @@ export async function sendResetPasswordMail(email) {
 	return data;
 }
 
+/**
+ * 
+ * @param {string} id 
+ */
 export const getUserbyId = async (id) => {
 	const { data, error } = await supabase.auth.admin.getUserById(id);
 	if (error) throw error;

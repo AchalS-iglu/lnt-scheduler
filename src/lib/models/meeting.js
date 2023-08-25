@@ -1,22 +1,21 @@
 import { supabase } from '$lib/supabase/client';
 
 /**
- *
- * @typedef {Object} Meeting_t
- * @param {string} meeting.id
- * @param {string} meeting.name
- * @param {string} meeting.description
- * @param {number} meeting.start
- * @param {number} meeting.end
- * @param {number} meeting.roomId
- * @param {number} meeting.userId
- * @param {number} meeting.createdAt
- * @param {number} meeting.participants
- * @param {boolean} meeting.refreshments
- * @param {boolean} meeting.lunch
- * @param {boolean} meeting.vc
- * @param {string} meeting.jobcode
- * @param {MeetingStatus} meeting.status
+ * @typedef {Object} Meeting
+ * @property {string} id
+ * @property {string} name
+ * @property {string} description
+ * @property {number} start
+ * @property {number} end
+ * @property {string} roomId
+ * @property {string} userId
+ * @property {number} createdAt
+ * @property {number} participants
+ * @property {boolean} refreshments
+ * @property {boolean} lunch
+ * @property {boolean} vc
+ * @property {string} jobcode
+ * @property {MeetingStatus} status
  */
 
 /**
@@ -30,11 +29,6 @@ export const MeetingStatus = {
 	REJECTED: 2
 };
 
-/**
- *
- * @param {Meeting_t} meeting
- * @returns
- */
 export async function createMeeting(meeting) {
 	const { data, error } = await supabase.from('meetings').insert(meeting);
 	if (error) {
@@ -45,6 +39,9 @@ export async function createMeeting(meeting) {
 	}
 }
 
+/**
+ * @returns {Promise<Meeting[]>}
+ */
 export async function getMeetings() {
 	const { data, error } = await supabase.from('meetings').select();
 	if (error) {
@@ -60,7 +57,7 @@ export async function getMeetings() {
  *
  * @param {string} id
  * @param {MeetingStatus} status
- * @returns {Promise<Meeting_t[]>}
+ * @returns {Promise<Meeting[]>}
  */
 export async function updateMeetingStatus(id, status) {
 	const { data, error } = await supabase.from('meetings').update({ status }).eq('id', id);

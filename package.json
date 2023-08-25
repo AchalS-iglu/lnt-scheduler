@@ -38,7 +38,7 @@
 		"@supabase/supabase-js": "^2.32.0",
 		"@sveltejs/adapter-static": "^2.0.3",
 		"sass": "^1.66.1",
-		"svelte-cached-store": "^0.1.0",
+		"svelte-cached-store": "latest",
 		"svelte-french-toast": "^1.2.0",
 		"svelte-fullcalendar": "^2.0.0-beta.0"
 	}
