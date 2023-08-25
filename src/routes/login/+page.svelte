@@ -30,6 +30,17 @@
 	}
 </script>
 
+<svelte:head
+	><title>Login | Meeting Room Booking System</title><meta
+		name="description"
+		content="Meeting Room Booking System"
+	/>
+	<meta name="keywords" content="Meeting Room Booking System" />
+	<meta name="author" content="Meeting Room Booking System" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="icon" type="image/png" href={'./favicon.png'} />
+</svelte:head>
+
 <div class="h-screen flex items-center justify-center">
 	<form
 		style="min-width: 30vw"
