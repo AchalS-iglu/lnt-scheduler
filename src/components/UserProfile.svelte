@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	import ChnagePwd from './modals/ChnagePwd.svelte';
 	import { goto } from '$app/navigation';
+	import AdminPanel from './modals/AdminPanel.svelte';
 </script>
 
 <div class="absolute bottom-0 right-0 mb-2 mr-2">
@@ -29,6 +30,20 @@
 						}}>Change Password</a
 					>
 				</li>
+			</ul>
+			<ul class="menu bg-base-200 w-56 rounded-box">
+				<!-- svelte-ignore a11y-missing-attribute -->
+				<li><button on:click={
+					() => {
+						modalStore.set({
+							component: AdminPanel,
+							props: {
+								isStandalone: false
+							},
+							isLoading: false
+						});
+					}
+				}>Admin Panel</button></li>
 			</ul>
 			<ul class="menu bg-base-200 w-56 rounded-box">
 				<!-- svelte-ignore a11y-missing-attribute -->

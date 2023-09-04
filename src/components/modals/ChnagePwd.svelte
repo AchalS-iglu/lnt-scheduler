@@ -32,7 +32,7 @@
 	};
 </script>
 
-<for class="header">
+<div class="header">
 	<span class="heading"> Change Password </span>
 	<IconButton on:click={closeModal}>
 		<svg
@@ -49,7 +49,7 @@
 			<line x1="6" y1="6" x2="18" y2="18" />
 		</svg>
 	</IconButton>
-</for>
+</div>
 <form class="flex flex-col gap-4" on:submit={handleSubmit}>
 	<div class="flex flex-col gap-4">
 		<div class="form-control w-full">
