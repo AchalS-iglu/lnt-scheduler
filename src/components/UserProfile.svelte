@@ -1,9 +1,7 @@
 <script>
-	import { getUserbyId, signOutUser } from '$lib/models/user';
+	import { signOutUser } from '$lib/models/user';
 	import { modalStore, userStore } from '$lib/stores';
-	import { onMount } from 'svelte';
 	import ChnagePwd from './modals/ChnagePwd.svelte';
-	import { goto } from '$app/navigation';
 	import AdminPanel from './modals/AdminPanel.svelte';
 </script>
 

@@ -59,6 +59,7 @@
 		}
 		toast
 			.promise(
+				// @ts-ignore
 				createMeeting({
 					name: form.name,
 					description: form.desc,
@@ -71,7 +72,7 @@
 					lunch: form.lunch,
 					vc: form.vc,
 					jobcode: form.jobcode,
-					status: MeetingStatus.PENDING
+					status: MeetingStatus.PENDING,
 				}),
 				{
 					loading: 'Creating meeting...',

@@ -72,6 +72,7 @@ export async function sendResetPasswordMail(email) {
  */
 export const getUserbyId = async (id) => {
 	const { data, error } = await supabase.from('userData').select('*').eq('id', id);
-	if (error) throw error;
 	if (data) return data;
+	if (error) throw error;
+	return [{}];
 };

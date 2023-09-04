@@ -19,14 +19,14 @@
 		}
 		userStore.set(s);
 		if (s)
-			getUserbyId(s?.user.id ?? '').then((res) => {
+			getUserbyId(s.user.id).then((res) => {
 				userStore.set({
 					...s,
 					name: res[0]?.name ? res[0].name : 'Unknown',
 					role: res[0]?.role ? res[0].role : 'Unknown'
 				});
-			});
-		else if (e === 'SIGNED_OUT') {
+			})
+		if (e === 'SIGNED_OUT') {
 			userStore.set(null);
 			goto('/login');
 		}

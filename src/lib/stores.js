@@ -7,8 +7,11 @@ import { cachedwritable } from 'svelte-cached-store';
 export const modalStore = writable(null);
 
 /**
- * @type {import ("svelte/store").Writable<import("@supabase/supabase-js").AuthSession | null>}
+ * @type {import ("svelte/store").Writable<{[key: any]: any} | null>}
  */
 export const userStore = cachedwritable(null, 'auth');
 
+/**
+ * @type {import ("svelte/store").Writable<import('./models/meeting').Meeting[]>}
+*/
 export const meetingsStore = cachedwritable([], 'meetings');

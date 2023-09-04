@@ -29,6 +29,9 @@ export const MeetingStatus = {
 	REJECTED: 2
 };
 
+/**
+ * @param {Meeting} meeting
+ */
 export async function createMeeting(meeting) {
 	const { data, error } = await supabase.from('meetings').insert(meeting);
 	if (error) {

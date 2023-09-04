@@ -13,7 +13,7 @@
 	import UserProfile from '../components/UserProfile.svelte';
 	import { supabase } from '$lib/supabase/client';
 	import { onMount } from 'svelte';
-	import { getRoombyId, getRooms } from '$lib/models/room';
+	import { getRooms } from '$lib/models/room';
 
 	/**
 	 * @type {number}
@@ -21,6 +21,9 @@
 	let windowWidth;
 	$: windowWidth < 768 ? (options.aspectRatio = 1) : (options.aspectRatio = 1.8);
 
+	/**
+	 * @type {import('$lib/models/room').Room_t[]}
+	 */
 	let rooms = [];
 
 	onMount(async () => {
@@ -95,11 +98,9 @@
 
 <svelte:window bind:innerWidth={windowWidth} />
 
-<svelte:head
-	><title>Home | Meeting Room Booking System</title><meta
-		name="description"
-		content="Meeting Room Booking System"
-	/>
+<svelte:head>
+	<title>Home | Meeting Room Booking System</title>
+	<meta name="description" content="Meeting Room Booking System" />
 	<meta name="keywords" content="Meeting Room Booking System" />
 	<meta name="author" content="Meeting Room Booking System" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -123,7 +124,7 @@
 					isLoading: false
 				})}>New Event</button
 		>
-		<div class="flex flex-col bg-slate-200 rounded-lg h-full py-6 px-4">
+		<div class="flex flex-col bg-slate-200 rounded-lg h-full py-6 px-4 gap-4">
 			<div class="font-medium text-center">Upcoming Events</div>
 			{#each $meetingsStore.filter((meet) => {
 				return new Date(meet.start) > new Date();
@@ -143,15 +144,25 @@
 						});
 					}}
 				>
-					<div class="flex flex-col gap-1">
-						<span class="font-medium">{meeting.name}</span>
-						<span class="text-xs">{rooms.find((room) => room.id === meeting.roomId)?.name}</span>
-					</div>
-					<div class="flex flex-col gap-1">
+					<span class="font-medium text-center">{meeting.name}</span>
+					<span class="text-xs">{rooms.find((room) => room.id === meeting.roomId)?.name}</span>
+					<span class="text-xs">
+						{meeting.status === MeetingStatus.APPROVED
+							? 'Approved'
+							: meeting.status === MeetingStatus.PENDING
+							? 'Pending'
+							: 'Rejected'}
+					</span>
+					<div
+						class="grid items-center gap-4"
+						style="grid-template-columns: max-content 1fr max-content;"
+					>
 						<span class="text-xs">{new Date(meeting.start).toLocaleString()}</span>
+						<div class="border-t border-black" />
 						<span class="text-xs">{new Date(meeting.end).toLocaleString()}</span>
 					</div>
 				</div>
+				<div class="border-t border-gray-400" />
 			{/each}
 		</div>
 	</div>

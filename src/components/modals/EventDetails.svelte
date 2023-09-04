@@ -14,16 +14,22 @@
 	 */
 	let meetingDetails = $modalStore?.props?.meeting ?? undefined;
 
+	/**
+	 * @type {any}
+	 */
 	let meetingUser;
+	/**
+	 * @type {string}
+	 */
 	let roomName;
-	onMount(async () => {
+	$: meetingDetails?.roomId &&
 		getRoombyId(meetingDetails.roomId).then((res) => {
 			roomName = res.name;
 		});
+	$: meetingDetails?.userId &&
 		getUserbyId(meetingDetails.userId).then((res) => {
 			meetingUser = res[0]?.name ?? 'Unknown';
 		});
-	});
 </script>
 
 <div class="header">
@@ -96,56 +102,60 @@
 					? 'Pending'
 					: 'Rejected'}</span
 			>
-			{#if $userStore.role === 'Admin'}
-				{#if meetingDetails.status === MeetingStatus.PENDING}
-					<button
-						class="btn btn-sm btn-success"
-						on:click={() => {
-							toast.promise(
-								updateMeetingStatus(meetingDetails.id, MeetingStatus.APPROVED).then(() => {
-									meetingsStore.set(
-										$meetingsStore.map((meet) => {
-											if (meet.id === meetingDetails.id) {
-												meet.status = MeetingStatus.APPROVED;
-											}
-											return meet;
-										})
-									);
-									closeModal();
-								}),
-								{
-									loading: 'Approving meeting...',
-									success: 'Meeting approved successfully!',
-									error: 'Failed to approve meeting'
-								}
-							);
-						}}>Approve</button
-					>
-					<button
-						class="btn btn-sm btn-error"
-						on:click={() => {
-							toast.promise(
-								updateMeetingStatus(meetingDetails.id, MeetingStatus.REJECTED).then(() => {
-									meetingsStore.set(
-										$meetingsStore.map((meet) => {
-											if (meet.id === meetingDetails.id) {
-												meet.status = MeetingStatus.REJECTED;
-											}
-											return meet;
-										})
-									);
-									closeModal();
-								}),
-								{
-									loading: 'Rejecting meeting...',
-									success: 'Meeting rejected successfully!',
-									error: 'Failed to reject meeting'
-								}
-							);
-						}}>Reject</button
-					>
+			<div class="col-span-2 flex justify-around mt-4">
+				{#if $userStore?.role === 'Admin'}
+					{#if meetingDetails.status === MeetingStatus.PENDING}
+						<button
+							class="btn btn-sm btn-success"
+							on:click={() => {
+								if (!meetingDetails) return;
+								toast.promise(
+									updateMeetingStatus(meetingDetails.id, MeetingStatus.APPROVED).then(() => {
+										meetingsStore.set(
+											$meetingsStore.map((meet) => {
+												if (meet.id === meetingDetails?.id) {
+													meet.status = MeetingStatus.APPROVED;
+												}
+												return meet;
+											})
+										);
+										closeModal();
+									}),
+									{
+										loading: 'Approving meeting...',
+										success: 'Meeting approved successfully!',
+										error: 'Failed to approve meeting'
+									}
+								);
+							}}>Approve</button
+						>
+						<button
+							class="btn btn-sm btn-error"
+							on:click={() => {
+								if (!meetingDetails) return;
+								toast.promise(
+									updateMeetingStatus(meetingDetails.id, MeetingStatus.REJECTED).then(() => {
+										meetingsStore.set(
+											$meetingsStore.map((meet) => {
+												if (meet.id === meetingDetails?.id) {
+													meet.status = MeetingStatus.REJECTED;
+												}
+												return meet;
+											})
+										);
+										closeModal();
+									}),
+									{
+										loading: 'Rejecting meeting...',
+										success: 'Meeting rejected successfully!',
+										error: 'Failed to reject meeting'
+									}
+								);
+							}}>Reject</button
+						>
+					{/if}
 				{/if}
-			{/if}
+			</div>
 		</div>
 	{/if}
 </div>
